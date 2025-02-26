@@ -10,6 +10,7 @@ from src.db import init_db
 
 logging.basicConfig(level=logging.INFO)
 
+
 async def main():
     # Ждём, пока база данных будет готова
     time.sleep(10)  # Задержка 10 секунд
