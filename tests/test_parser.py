@@ -1,6 +1,7 @@
 import requests
 import pytest
 from src.parser import CodeforcesParser
+from unittest.mock import patch, MagicMock
 
 
 def test_get_problem_with_difficulty():
@@ -32,3 +33,36 @@ def test_get_problem_invalid_difficulty():
     parser = CodeforcesParser()
     problems = parser.get_problem(difficulty=999999)
     assert problems == []
+
+
+def test_get_problem_api_error():
+    """
+    Проверяем, что функция get_problem возвращает None, если API возвращает ошибку.
+    """
+    parser = CodeforcesParser()
+    with patch("requests.get") as mock_get:
+        mock_get.return_value.status_code = 500  # Симулируем ошибку сервера
+        problems = parser.get_problem()
+        assert problems is None
+
+
+def test_get_problem_api_status_not_ok():
+    """
+    Проверяем, что функция get_problem возвращает None, если статус ответа не "OK".
+    """
+    parser = CodeforcesParser()
+    with patch("requests.get") as mock_get:
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = {"status": "FAILED"}  # Симулируем статус не "OK"
+        problems = parser.get_problem()
+        assert problems is None
+
+
+def test_get_problem_timeout():
+    """
+    Проверяем, что функция get_problem возвращает None, если возникает таймаут.
+    """
+    parser = CodeforcesParser()
+    with patch("requests.get", side_effect=requests.Timeout):
+        problems = parser.get_problem()
+        assert problems is None

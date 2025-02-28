@@ -1,4 +1,5 @@
 import requests
+from requests.exceptions import Timeout
 from src.db import SessionLocal
 from src.models import Problem  # Импортируем модель Problem
 

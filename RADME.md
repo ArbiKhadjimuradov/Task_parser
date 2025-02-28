@@ -49,7 +49,7 @@
 - src\db.py                            14      4    71%
 - src\main.py                          12      2    83%
 - src\models.py                        22      0   100%
-- src\parser.py                        27     13    52%
+- src\parser.py                        33     12    64%
 - src\services\problem_service.py      21      2    90%
 -----------------------------------------------------
-TOTAL                               135     37    73%
+TOTAL                               161     39    76%
